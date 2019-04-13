@@ -3,8 +3,6 @@ package com.blawniczak.dao
 import com.blawniczak.model.User
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.joda.time.*
-import java.io.*
 
 class DaoFacadeDatabase(val db: Database): DaoFacade {
 
@@ -14,10 +12,6 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
             driver = "com.mysql.jdbc.Driver"
         )
     )
-
-    override fun user(userId: String, hash: String?): User? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun createUser(user: User) {
         transaction {
@@ -31,9 +25,12 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
         }
     }
 
-    override fun userByEmail(email: String): User? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun userByEmail(email: String) =
+        transaction {
+            Users.select { Users.email.eq(email) }
+                .map { User(it[Users.id], email, it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
+        }
+
 
     override fun close() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

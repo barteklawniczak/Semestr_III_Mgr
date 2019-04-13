@@ -105,7 +105,19 @@ fun main(args: Array<String>) {
                             val hash = hashFunction(password)
                             println(hash)
                             val newUser = User(0, email, name, surname, hash)
-                            dao.createUser(newUser)
+                            try {
+                                dao.createUser(newUser)
+                            } catch (e: Throwable) {
+                                when {
+                                    dao.userByEmail(email) != null -> {
+                                        call.respond(FreeMarkerContent("register.ftl", mapOf("user" to user, "error" to "User with the following email $email is already registered")))
+                                    }
+                                    else -> {
+                                        call.respond(FreeMarkerContent("register.ftl", mapOf("user" to user, "error" to "Registration failed!")))
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }

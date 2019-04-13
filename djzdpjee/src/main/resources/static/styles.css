@@ -1,3 +1,17 @@
 body {
     background: #B9D8FF;
 }
+
+.registration-form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.input-div {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.submit-button {
+    width: 240px;
+}

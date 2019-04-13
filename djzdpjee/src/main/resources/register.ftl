@@ -30,7 +30,7 @@
                 <input type="password" name="password" id="password"/>
             </div>
 
-            <input class="pure-button pure-button-primary" type="submit" value="Register">
+            <input class="submit-button" type="submit" value="Register">
         </form>
     </div>
 </body>
