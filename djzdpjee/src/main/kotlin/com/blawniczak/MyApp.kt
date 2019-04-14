@@ -59,27 +59,50 @@ fun main(args: Array<String>) {
                 resources("static")
             }
             get("/") {
-                call.respondText(getTopUsers(), ContentType.Text.Html)
+                call.respondRedirect("/register")
             }
-            get("/html-freemarker") {
-                call.respond(FreeMarkerContent("index.ftl", mapOf("data" to IndexData(listOf(1, 2, 3))), ""))
+            get("/logout") {
+                call.sessions.clear<UserSession>()
+                call.respondRedirect("/login")
+
             }
             route("/login") {
                 get {
-                    call.respond(FreeMarkerContent("login.ftl", null))
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+
+                    if (loggedUser != null) {
+                        call.respondRedirect("/edit")
+                    } else {
+                        call.respond(FreeMarkerContent("login.ftl", null))
+                    }
                 }
                 post {
-                    val post = call.receiveParameters()
-                    if (post["username"] != null && post["username"] == post["password"]) {
-                        call.respondText("OK")
+                    val login = call.receiveParameters()
+                    val email = login["email"]
+                    val password = login["password"]
+
+                    if (email=="" || password=="") {
+                        return@post call.respond(FreeMarkerContent("login.ftl", mapOf("error" to "Invalid login")))
                     } else {
-                        call.respond(FreeMarkerContent("login.ftl", mapOf("error" to "Invalid login")))
+                        val loggedUser = dao.login(email!!, hash(password!!))
+                        if(loggedUser==null) {
+                            return@post call.respond(FreeMarkerContent("login.ftl", mapOf("error" to "Invalid login")))
+                        } else {
+                            call.sessions.set(UserSession(loggedUser.email))
+                            call.respondRedirect("/edit")
+                        }
                     }
                 }
             }
             route("/register") {
                 get {
-                    call.respond(FreeMarkerContent("register.ftl", mapOf("user" to Register())))
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+
+                    if (loggedUser != null) {
+                        call.respondRedirect("/edit")
+                    } else {
+                        call.respond(FreeMarkerContent("register.ftl", mapOf("user" to Register())))
+                    }
                 }
                 post {
                     val registration = call.receiveParameters()
@@ -88,7 +111,7 @@ fun main(args: Array<String>) {
                     val surname = registration["surname\""]
                     val password = registration["password"]
                     val user = Register(email!!, name!!, surname!!, password!!)
-                    if (email == "" || name=="" || surname=="" || password=="")
+                    if (email=="" || name=="" || surname=="" || password=="")
                         return@post call.respond(FreeMarkerContent("register.ftl", mapOf("user" to user, "error" to "Incomplete data!")))
 
                     when {
@@ -117,8 +140,18 @@ fun main(args: Array<String>) {
                                     }
                                 }
                             }
-
+                            call.respondRedirect("/login")
                         }
+                    }
+                }
+            }
+            route("/edit") {
+                get {
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    if(loggedUser==null) {
+                        call.respondRedirect("/login")
+                    } else {
+                        call.respond(FreeMarkerContent("edit.ftl", mapOf("loggedUser" to loggedUser)))
                     }
                 }
             }
@@ -127,20 +160,7 @@ fun main(args: Array<String>) {
     server.start(wait = true)
 }
 
-fun getTopUsers(): String {
-    var json = ""
-    transaction {
-        val res = Users.selectAll().orderBy(Users.id, false).limit(5)
-        val c = ArrayList<User>()
-        for (f in res) {
-            c.add(User(id = f[Users.id], email = f[Users.email], name = f[Users.name], surname = f[Users.surname], password = f[Users.password]))
-        }
-        json = Gson().toJson(c)
-    }
-    return json
-}
-
-data class UserSession(val userId: String)
+data class UserSession(val email: String)
 val hashKey = hex("631757516945196845339089")
 val hmacKey = SecretKeySpec(hashKey, "HmacSHA1")
 fun hash(password: String): String {

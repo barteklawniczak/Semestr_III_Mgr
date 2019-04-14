@@ -1,8 +1,7 @@
-<html>
-<head>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
+
+<#import "template.ftl" as layout />
+
+<@layout.mainLayout title="Welcome">
     <div class="registration-form">
         <#if error??>
         <p style="color:red;">${error}</p>
@@ -33,5 +32,4 @@
             <input class="submit-button" type="submit" value="Register">
         </form>
     </div>
-</body>
-</html>
+</@layout.mainLayout>

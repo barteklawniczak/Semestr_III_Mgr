@@ -31,6 +31,18 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
                 .map { User(it[Users.id], email, it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
         }
 
+    override fun login(email: String, password: String) =
+        transaction {
+            Users.select { Users.email.eq(email) }
+                .mapNotNull {
+                    if (it[Users.password] == password) {
+                        User(it[Users.id], it[Users.email], it[Users.name], it[Users.surname], it[Users.password])
+                    } else {
+                        null
+                    }
+                }
+                .singleOrNull()
+        }
 
     override fun close() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
