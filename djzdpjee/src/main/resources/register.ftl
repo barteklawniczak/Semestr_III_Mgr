@@ -7,6 +7,8 @@
         <p style="color:red;">${error}</p>
         </#if>
 
+        <h3>Register your account</h3>
+
         <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
 
             <div class="input-div">
@@ -26,7 +28,7 @@
 
             <div class="input-div">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password"/>
+                <input type="password" name="password" id="password" value="${user.password}"/>
             </div>
 
             <input class="submit-button" type="submit" value="Register">

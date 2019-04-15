@@ -24,3 +24,15 @@ body {
 .header {
     text-align: right;
 }
+
+.account {
+    width: 600px;
+    border: 1px solid black;
+    display: flex;
+    margin: 0 auto;
+}
+
+.account-element {
+    width: 200px;
+    text-align: center;
+}

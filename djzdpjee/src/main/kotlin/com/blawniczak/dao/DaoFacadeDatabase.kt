@@ -16,11 +16,20 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
     override fun createUser(user: User) {
         transaction {
             Users.insert {
-                //it[id] = user.id
                 it[email] = user.email
                 it[name] = user.name
                 it[surname] = user.surname
                 it[password] = user.password
+            }
+        }
+    }
+
+    override fun updateUser(user: User) {
+        transaction {
+            Users.update({ Users.id eq user.id }) {
+                it[email] = user.email
+                it[name] = user.name
+                it[surname] = user.surname
             }
         }
     }
@@ -30,6 +39,17 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
             Users.select { Users.email.eq(email) }
                 .map { User(it[Users.id], email, it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
         }
+
+    override fun getAllUsers(): ArrayList<User> {
+        val users = ArrayList<User>()
+        transaction {
+            val res = Users.selectAll().orderBy(Users.id, false)
+            for (f in res) {
+                users.add(User(id = f[Users.id], email = f[Users.email], name = f[Users.name], surname = f[Users.surname], password = f[Users.password]))
+            }
+        }
+        return users
+    }
 
     override fun login(email: String, password: String) =
         transaction {

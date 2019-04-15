@@ -5,6 +5,9 @@
         <#if error??>
             <p style="color:red;">${error}</p>
         </#if>
+
+        <h3>Login to application</h3>
+
         <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
             <div class="input-div">
                 <label for="email">Email</label>

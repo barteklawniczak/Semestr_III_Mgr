@@ -154,6 +154,41 @@ fun main(args: Array<String>) {
                         call.respond(FreeMarkerContent("edit.ftl", mapOf("loggedUser" to loggedUser)))
                     }
                 }
+                post {
+                    val update = call.receiveParameters()
+                    val id = update["id"]
+                    val email = update["email"]
+                    val name = update["name"]
+                    val surname = update["surname\""]
+                    if (email=="" || name=="" || surname=="")
+                        return@post call.respond(FreeMarkerContent("edit.ftl", mapOf("error" to "Incomplete data!")))
+
+                    val newUser = User(id!!.toInt(), email!!, name!!, surname!!, "")
+                    try {
+                        dao.updateUser(newUser)
+                    } catch (e: Throwable) {
+                        when {
+                            dao.userByEmail(email) != null -> {
+                                call.respond(FreeMarkerContent("edit.ftl", mapOf("loggedUser" to newUser, "error" to "User with the following email $email is already registered")))
+                            }
+                            else -> {
+                                call.respond(FreeMarkerContent("edit.ftl", mapOf("loggedUser" to newUser, "error" to "Update failed!")))
+                            }
+                        }
+                    }
+                    call.respondRedirect("/edit")
+                }
+            }
+            route("/accounts") {
+                get {
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    if(loggedUser==null) {
+                        call.respondRedirect("/login")
+                    } else {
+                        val users = dao.getAllUsers()
+                        call.respond(FreeMarkerContent("accounts-list.ftl", mapOf("loggedUser" to loggedUser, "users" to users)))
+                    }
+                }
             }
         }
     }
