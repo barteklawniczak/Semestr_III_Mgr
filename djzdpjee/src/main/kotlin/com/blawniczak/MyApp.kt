@@ -190,6 +190,18 @@ fun main(args: Array<String>) {
                     }
                 }
             }
+            route("/accounts/{id}") {
+                get {
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    val id = call.parameters["id"]
+                    if(loggedUser==null) {
+                        call.respondRedirect("/login")
+                    } else {
+                        val user = dao.userById(id!!.toInt())
+                        call.respond(FreeMarkerContent("account-details.ftl", mapOf("loggedUser" to loggedUser, "user" to user)))
+                    }
+                }
+            }
         }
     }
     server.start(wait = true)

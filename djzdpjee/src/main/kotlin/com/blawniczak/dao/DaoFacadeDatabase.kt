@@ -40,6 +40,12 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
                 .map { User(it[Users.id], email, it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
         }
 
+    override fun userById(id: Int) =
+        transaction {
+            Users.select { Users.id.eq(id) }
+                .map { User(id, it[Users.email], it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
+        }
+
     override fun getAllUsers(): ArrayList<User> {
         val users = ArrayList<User>()
         transaction {

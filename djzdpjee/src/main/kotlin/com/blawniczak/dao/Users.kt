@@ -1,6 +1,6 @@
 package com.blawniczak.dao
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.*
 
 object Users : Table("USERS") {
     val id = integer("id").primaryKey().autoIncrement()
