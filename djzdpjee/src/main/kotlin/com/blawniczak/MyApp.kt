@@ -2,8 +2,11 @@ package com.blawniczak
 
 import com.blawniczak.dao.DaoFacade
 import com.blawniczak.dao.DaoFacadeDatabase
+import com.blawniczak.dao.Details
 import com.blawniczak.dao.Users
+import com.blawniczak.model.Detail
 import com.blawniczak.model.User
+import com.blawniczak.model.UserData
 import freemarker.cache.ClassTemplateLoader
 import com.google.gson.Gson
 import io.ktor.application.*
@@ -64,7 +67,6 @@ fun main(args: Array<String>) {
             get("/logout") {
                 call.sessions.clear<UserSession>()
                 call.respondRedirect("/login")
-
             }
             route("/login") {
                 get {
@@ -96,7 +98,8 @@ fun main(args: Array<String>) {
             }
             route("/register") {
                 get {
-                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    val loggedUser = call.sessions.get<UserSession>()?.let {
+                        dao.userByEmail(it.email) }
 
                     if (loggedUser != null) {
                         call.respondRedirect("/edit")
@@ -126,8 +129,7 @@ fun main(args: Array<String>) {
                         }
                         else -> {
                             val hash = hashFunction(password)
-                            println(hash)
-                            val newUser = User(0, email, name, surname, hash)
+                            val newUser = UserData(0, email, name, surname, hash)
                             try {
                                 dao.createUser(newUser)
                             } catch (e: Throwable) {
@@ -151,7 +153,8 @@ fun main(args: Array<String>) {
                     if(loggedUser==null) {
                         call.respondRedirect("/login")
                     } else {
-                        call.respond(FreeMarkerContent("edit.ftl", mapOf("loggedUser" to loggedUser)))
+                        val details = dao.getAllUserDetails(loggedUser.id)
+                        call.respond(FreeMarkerContent("edit.ftl", mapOf("loggedUser" to loggedUser, "details" to details)))
                     }
                 }
                 post {
@@ -163,7 +166,7 @@ fun main(args: Array<String>) {
                     if (email=="" || name=="" || surname=="")
                         return@post call.respond(FreeMarkerContent("edit.ftl", mapOf("error" to "Incomplete data!")))
 
-                    val newUser = User(id!!.toInt(), email!!, name!!, surname!!, "")
+                    val newUser = UserData(id!!.toInt(), email!!, name!!, surname!!, "")
                     try {
                         dao.updateUser(newUser)
                     } catch (e: Throwable) {
@@ -181,7 +184,8 @@ fun main(args: Array<String>) {
             }
             route("/accounts") {
                 get {
-                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    val loggedUser = call.sessions.get<UserSession>()?.let {
+                        dao.userByEmail(it.email) }
                     if(loggedUser==null) {
                         call.respondRedirect("/login")
                     } else {
@@ -198,7 +202,56 @@ fun main(args: Array<String>) {
                         call.respondRedirect("/login")
                     } else {
                         val user = dao.userById(id!!.toInt())
-                        call.respond(FreeMarkerContent("account-details.ftl", mapOf("loggedUser" to loggedUser, "user" to user)))
+                        val details = dao.getAllUserDetails(id.toInt())
+                        call.respond(FreeMarkerContent("account-details.ftl", mapOf("loggedUser" to loggedUser, "user" to user, "details" to details)))
+                    }
+                }
+            }
+            route("/accounts/{id}/details/{detailsId}") {
+                get {
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    val details = dao.detailsById(call.parameters["detailsId"]!!.toInt())
+                    var userId = -1
+                    transaction {
+                        userId = details!!.userId.id.value
+                    }
+                    if(loggedUser==null) {
+                        call.respondRedirect("/login")
+                    } else if(loggedUser.id != userId || call.parameters["id"]!!.toInt() != userId) {
+                        call.respondRedirect("/accounts")
+                    } else {
+                        call.respond(FreeMarkerContent("edit-details.ftl", mapOf("loggedUser" to loggedUser, "detail" to details)))
+                    }
+                }
+                post {
+                    val update = call.receiveParameters()
+                    val address = update["address"]
+                    if(address != null && address != "") {
+                        dao.updateDetail(update["id"]!!.toInt(), address)
+                        call.respondRedirect("/edit")
+                    } else {
+                        call.respondRedirect("/accounts")
+                    }
+                }
+            }
+            route("/add-details") {
+                get {
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    if(loggedUser==null) {
+                        call.respondRedirect("/login")
+                    } else {
+                        call.respond(FreeMarkerContent("add-details.ftl", mapOf("loggedUser" to loggedUser)))
+                    }
+                }
+                post {
+                    val loggedUser = call.sessions.get<UserSession>()?.let { dao.userByEmail(it.email) }
+                    val details = call.receiveParameters()
+                    val address = details["address"]
+                    if(address == null && address=="") {
+                        call.respondRedirect("/add-details")
+                    } else {
+                        dao.createDetails(loggedUser!!.id, address!!)
+                        call.respondRedirect("/edit")
                     }
                 }
             }

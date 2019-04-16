@@ -1,8 +1,12 @@
 package com.blawniczak.dao
 
+import com.blawniczak.model.Detail
 import com.blawniczak.model.User
+import com.blawniczak.model.UserData
+import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.math.absoluteValue
 
 class DaoFacadeDatabase(val db: Database): DaoFacade {
 
@@ -13,7 +17,7 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
         )
     )
 
-    override fun createUser(user: User) {
+    override fun createUser(user: UserData) {
         transaction {
             Users.insert {
                 it[email] = user.email
@@ -24,7 +28,16 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
         }
     }
 
-    override fun updateUser(user: User) {
+    override fun createDetails(id: Int, enteredAddress: String) {
+        transaction {
+            Details.insert {
+                it[address] = enteredAddress
+                it[userId] = EntityID(id, Users)
+            }
+        }
+    }
+
+    override fun updateUser(user: UserData) {
         transaction {
             Users.update({ Users.id eq user.id }) {
                 it[email] = user.email
@@ -34,27 +47,48 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
         }
     }
 
+    override fun updateDetail(id: Int, addressUpdated: String) {
+        transaction {
+            Details.update({ Details.id eq id }) {
+                it[address] = addressUpdated
+            }
+        }
+    }
+
     override fun userByEmail(email: String) =
         transaction {
             Users.select { Users.email.eq(email) }
-                .map { User(it[Users.id], email, it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
+                .map { UserData(it[Users.id].value, email, it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
         }
 
     override fun userById(id: Int) =
         transaction {
             Users.select { Users.id.eq(id) }
-                .map { User(id, it[Users.email], it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
+                .map { UserData(id, it[Users.email], it[Users.name], it[Users.surname], it[Users.password]) }.singleOrNull()
         }
 
-    override fun getAllUsers(): ArrayList<User> {
-        val users = ArrayList<User>()
+    override fun detailsById(id: Int): Detail? =
+        transaction {
+            Detail.findById(id)
+    }
+
+    override fun getAllUsers(): ArrayList<UserData> {
+        val users = ArrayList<UserData>()
         transaction {
             val res = Users.selectAll().orderBy(Users.id, false)
             for (f in res) {
-                users.add(User(id = f[Users.id], email = f[Users.email], name = f[Users.name], surname = f[Users.surname], password = f[Users.password]))
+                users.add(UserData(id = f[Users.id].value, email = f[Users.email], name = f[Users.name], surname = f[Users.surname], password = f[Users.password]))
             }
         }
         return users
+    }
+
+    override fun getAllUserDetails(id: Int): ArrayList<Detail> {
+        val details = ArrayList<Detail>()
+        transaction {
+            Detail.find { Details.userId eq id }.toCollection(details)
+        }
+        return details
     }
 
     override fun login(email: String, password: String) =
@@ -62,7 +96,7 @@ class DaoFacadeDatabase(val db: Database): DaoFacade {
             Users.select { Users.email.eq(email) }
                 .mapNotNull {
                     if (it[Users.password] == password) {
-                        User(it[Users.id], it[Users.email], it[Users.name], it[Users.surname], it[Users.password])
+                        UserData(it[Users.id].value, it[Users.email], it[Users.name], it[Users.surname], it[Users.password])
                     } else {
                         null
                     }

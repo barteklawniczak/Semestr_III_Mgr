@@ -21,6 +21,18 @@
             <div class="user-detail">${user.surname}</div>
         </div>
 
+
+        <h3 class="addresses">Addresses</h3>
+
+        <#list details as detail>
+            <div class="input-div">
+                <p class="account-element">${detail.address}</p>
+            </div>
+        <#else>
+            <h3>There are no addresses yet</h3>
+        </#list>
+
+
     </div>
 
 </@layout.mainLayout>
