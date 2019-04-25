@@ -54,6 +54,7 @@ fun main(args: Array<String>) {
         }
         install(Sessions) {
             cookie<UserSession>("SESSION") {
+                cookie.path = "/"
                 transform(SessionTransportTransformerMessageAuthentication(hashKey))
             }
         }
