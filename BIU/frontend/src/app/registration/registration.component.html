@@ -1,0 +1,33 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+  <div class="form-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Username" formControlName="login">
+      <mat-error *ngIf="login.hasError('required')">Login is required!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="email.hasError('required')">Email is required!</mat-error>
+      <mat-error *ngIf="email.hasError('email')">Wrong email pattern!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password" type="password" formControlName="password">
+      <mat-error *ngIf="password.hasError('required')">Password is required!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Repeat password</mat-label>
+      <input matInput placeholder="Password" type="password" formControlName="repeatedPassword">
+      <mat-error *ngIf="repeatedPassword.hasError('required')">Repeated password is required!</mat-error>
+      <mat-error *ngIf="repeatedPassword.hasError('invalid')">Passwords mismatch!</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" class="simple-button">Submit</button>
+  </div>
+
+</form>

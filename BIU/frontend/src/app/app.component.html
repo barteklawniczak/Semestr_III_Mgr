@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span style="cursor: pointer" routerLink="/">Song Portal</span>
+
+    <span class="example-spacer"></span>
+    <button mat-button routerLink="/">App Info</button>
+    <button mat-button routerLink='/about'>User Info</button>
+    <button *ngIf="!authService.checkCredentials()" mat-button routerLink="/login">Login</button>
+    <button *ngIf="!authService.checkCredentials()" mat-button routerLink="/registration">Registration</button>
+    <button *ngIf="authService.checkCredentials()" mat-button (click)="authService.logout()">Logout</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
+
+<mat-toolbar color='primary'>
+  <span class='example-spacer'></span>
+  <h3>Budowanie Bogatego Interfejsu Użytkownika - Song Portal 2018 </h3>
+  <span class='example-spacer'></span>
+</mat-toolbar>
