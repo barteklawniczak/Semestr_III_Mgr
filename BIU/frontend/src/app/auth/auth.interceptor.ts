@@ -23,7 +23,7 @@ export class Interceptor implements HttpInterceptor {
     let authReq = req;
     if (this.cookieService.get('access_token')) {
       const headers = new HttpHeaders({
-        'Authorization': 'Bearer ' + this.cookieService.get('access_token')
+        'x-access-token': this.cookieService.get('access_token')
       });
       authReq = req.clone({headers: headers});
     }

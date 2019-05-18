@@ -13,20 +13,9 @@ export class AuthService {
   constructor(private _router: Router, private _http: HttpClient, private cookieService: CookieService) { }
 
   obtainAccessToken(loginData) {
-    const params = new HttpParams();
-    params.append('username', loginData.username);
-    params.append('password', loginData.password);
-    params.append('grant_type', 'password');
-    params.append('client_id', 'fooClientIdPassword');
-    const body = 'grant_type=password&username=' + loginData.username + '&password=' +
-      loginData.password + '&client_id=fooClientIdPassword';
-
-    const headers = new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'Basic ' +
-      btoa('fooClientIdPassword:secret')});
-    console.log(params);
-    this._http.post('http://localhost:8080/users/oauth/token', body, {
-      headers: headers, params : params
-    }).subscribe(
+    console.log(loginData);
+    const headers = new HttpHeaders({ 'Content-type': 'application/x-www-form-urlencoded' });
+    this._http.post('http://localhost:8080/api/authenticate', loginData).subscribe(
       (data) => {
         this.saveToken(data);
         this.getUser(loginData.username).subscribe(
@@ -59,7 +48,7 @@ export class AuthService {
   }
 
   registration(registrationData): Observable<any> {
-    return this._http.post('http://localhost:8080/users/', registrationData, {responseType: 'text'});
+    return this._http.post('http://localhost:8080/api/register/', registrationData, {responseType: 'text'});
   }
 
   setUser(user: UserLoggedModel) {

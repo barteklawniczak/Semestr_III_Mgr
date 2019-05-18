@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(private route: ActivatedRoute, private authService: AuthService) { }
 
   loginForm = new FormGroup({
-    username: new FormControl(''),
+    login: new FormControl(''),
     password: new FormControl(''),
   });
   returnUrl: string;

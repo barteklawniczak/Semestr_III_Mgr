@@ -39,7 +39,7 @@ export class RegistrationComponent implements OnInit {
         this.toastr.success( 'Registration successful! Please wait, you are being autologged.', 'Success!');
         setTimeout(() => {
           this.authService.obtainAccessToken(new FormGroup({
-            username: this.registrationForm.controls['login'],
+            login: this.registrationForm.controls['login'],
             password: this.registrationForm.controls['password']}).value);
           }, 3000);
     }, (error) => {
