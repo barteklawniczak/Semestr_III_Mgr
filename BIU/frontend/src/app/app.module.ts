@@ -18,6 +18,7 @@ import {RegistrationComponent} from './registration/registration.component';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 import {ToastrModule} from 'ngx-toastr';
 import {HistoryDialogComponent} from './dialogs/history-dialog/history-dialog.component';
+import {SongsComponent} from './songs/songs.component';
 
 
 @NgModule(<NgModule>{
@@ -27,7 +28,8 @@ import {HistoryDialogComponent} from './dialogs/history-dialog/history-dialog.co
     LoginComponent,
     AboutComponent,
     RegistrationComponent,
-    HistoryDialogComponent
+    HistoryDialogComponent,
+    SongsComponent
   ],
   entryComponents: [
     HistoryDialogComponent
