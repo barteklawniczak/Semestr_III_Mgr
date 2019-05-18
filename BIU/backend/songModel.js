@@ -19,9 +19,9 @@ var songSchema = mongoose.Schema({
     }
 });
 
-// Export Contact model
+// Export song model
 var Song = module.exports = mongoose.model('song', songSchema);
 
 module.exports.get = function (callback, limit) {
     Song.find(callback).limit(limit);
-}
+};

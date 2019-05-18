@@ -11,15 +11,15 @@ router.get('/', function (req, res) {
     });
 });
 
-// Import contact controller
+// Import song controller
 var songController = require('./songController');
 
-// Contact routes
+// song routes
 router.route('/songs')
     .get(songController.index)
     .post(songController.new);
 
-router.route('/songs/:contact_id')
+router.route('/songs/:song_id')
     .get(songController.view)
     .patch(songController.update)
     .put(songController.update)

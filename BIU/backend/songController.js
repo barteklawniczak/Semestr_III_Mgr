@@ -1,6 +1,6 @@
 // songController.js
 
-// Import contact model
+// Import song model
 Song = require('./songModel');
 
 // Handle index actions
@@ -20,18 +20,17 @@ exports.index = function (req, res) {
     });
 };
 
-// Handle create contact actions
+// Handle create song actions
 exports.new = function (req, res) {
     var song = new Song();
-    song.name = req.body.name ? req.body.name : song.name;
-    song.gender = req.body.gender;
-    song.email = req.body.email;
-    song.phone = req.body.phone;
+    song.title = req.body.title ? req.body.title : song.title;
+    song.band = req.body.band;
+    song.genre = req.body.genre;
 
 // save the song and check for errors
-    Song.save(function (err) {
+    song.save(function (err) {
         // if (err)
-        //     res.json(err);
+        //    res.json(err);
 
         res.json({
             message: 'New song created!',
@@ -59,10 +58,9 @@ exports.update = function (req, res) {
         if (err)
             res.send(err);
 
-        song.name = req.body.name ? req.body.name : song.name;
-        song.gender = req.body.gender;
-        song.email = req.body.email;
-        song.phone = req.body.phone;
+        song.title = req.body.title ? req.body.title : song.title;
+        song.band = req.body.band;
+        song.genre = req.body.genre;
 
 // save the song and check for errors
         song.save(function (err) {
