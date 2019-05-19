@@ -13,17 +13,18 @@ export class AuthService {
   constructor(private _router: Router, private _http: HttpClient, private cookieService: CookieService) { }
 
   obtainAccessToken(loginData) {
-    console.log(loginData);
+    const body = 'login=' + loginData.login + '&password=' + loginData.password;
     const headers = new HttpHeaders({ 'Content-type': 'application/x-www-form-urlencoded' });
-    this._http.post('http://localhost:8080/api/authenticate', loginData).subscribe(
-      (data) => {
-        this.saveToken(data);
-        this.getUser(loginData.username).subscribe(
+    this._http.post('http://localhost:8080/api/authenticate', body, { headers: headers }).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.saveToken(data.data.token);
+        /*this.getUser(loginData.username).subscribe(
           (response) => {
           this.setUser(response);
         }, (error) => {
           console.log(error);
-        });
+        });*/
       },
       (err) => {
             alert('Invalid Credentials');
@@ -32,8 +33,8 @@ export class AuthService {
       }
 
   saveToken(token) {
-    const expireDate = new Date().getTime() + (1000 * token.expires_in);
-    this.cookieService.set('access_token', token.access_token, expireDate);
+    console.log(token);
+    this.cookieService.set('access_token', token);
     console.log('Obtained Access token');
   }
 

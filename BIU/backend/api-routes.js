@@ -13,6 +13,7 @@ router.get('/', function (req, res) {
 });
 
 function validateUser(req, res, next) {
+    console.log(req.headers);
     jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function(err, decoded) {
         if (err) {
             res.json({status:"error", message: err.message, data:null});
