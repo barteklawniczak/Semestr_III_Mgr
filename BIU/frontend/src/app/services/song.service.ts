@@ -14,4 +14,8 @@ export class SongService {
   getAllSongs(): Observable<SongModel[]> {
     return this.http.get<any>('http://localhost:8080/api/songs/').map(res => res.data);
   }
+
+  getSongById(id: string): Observable<SongModel> {
+    return this.http.get<any>('http://localhost:8080/api/songs/' + id).map(res => res.data);
+  }
 }

@@ -1,4 +1,3 @@
-// api-routes.js
 const jwt = require('jsonwebtoken');
 
 // Initialize express router
@@ -13,10 +12,9 @@ router.get('/', function (req, res) {
 });
 
 function validateUser(req, res, next) {
-    console.log(req.headers);
     jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function(err, decoded) {
         if (err) {
-            res.json({status:"error", message: err.message, data:null});
+            res.status(401).json({status:"error", message: err.message, data:null});
         } else {
             // add user id to request
             req.body.userId = decoded.id;
@@ -31,7 +29,7 @@ let userController = require('./users/userController');
 
 // song routes
 router.route('/songs')
-    .get(songController.index)
+    .get(validateUser, songController.index)
     .post(validateUser, songController.new);
 
 router.route('/songs/:song_id')

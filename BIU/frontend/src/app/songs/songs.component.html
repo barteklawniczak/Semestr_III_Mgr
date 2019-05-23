@@ -1,4 +1,4 @@
-<h2>Your route history:</h2>
+<h2>All songs:</h2>
 
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="title">
@@ -14,5 +14,5 @@
         <mat-cell *matCellDef="let element"> {{element.genre}} </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [routerLink]="[row._id]"></mat-row>
 </mat-table>

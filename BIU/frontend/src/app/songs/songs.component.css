@@ -1,0 +1,7 @@
+mat-table {
+    margin-bottom: 20px;
+}
+
+mat-row:hover {
+    background: #D0D0D0;
+}

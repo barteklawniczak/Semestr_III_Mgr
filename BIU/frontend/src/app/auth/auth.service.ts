@@ -19,12 +19,8 @@ export class AuthService {
       (data: any) => {
         console.log(data);
         this.saveToken(data.data.token);
-        /*this.getUser(loginData.username).subscribe(
-          (response) => {
-          this.setUser(response);
-        }, (error) => {
-          console.log(error);
-        });*/
+        this.setUser(data.data.user);
+        this._router.navigate(['/songs']);
       },
       (err) => {
             alert('Invalid Credentials');
@@ -33,7 +29,6 @@ export class AuthService {
       }
 
   saveToken(token) {
-    console.log(token);
     this.cookieService.set('access_token', token);
     console.log('Obtained Access token');
   }

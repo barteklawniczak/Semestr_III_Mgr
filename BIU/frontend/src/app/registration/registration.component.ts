@@ -3,7 +3,6 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
 
 function passwordConfirmValidation(c: AbstractControl): any {
   if (!c.parent || !c) {

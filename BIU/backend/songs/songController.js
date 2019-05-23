@@ -43,7 +43,7 @@ exports.new = function (req, res) {
 exports.view = function (req, res) {
     Song.findById(req.params.song_id, function (err, song) {
         if (err)
-            res.send(err);
+            res.status(404).send(err);
         res.json({
             message: 'song details loading..',
             data: song

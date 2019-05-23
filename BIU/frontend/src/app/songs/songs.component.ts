@@ -23,4 +23,7 @@ export class SongsComponent implements OnInit {
         });
     }
 
+    logData(row) {
+        console.log(row);
+    }
 }

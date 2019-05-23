@@ -6,6 +6,7 @@ import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './utils/AuthGuard';
 import {RegistrationComponent} from './registration/registration.component';
 import {SongsComponent} from './songs/songs.component';
+import {SongDetailsComponent} from './song-details/song-details.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'songs',
     component: SongsComponent
+  },
+  {
+    path: 'songs/:id',
+    component: SongDetailsComponent
   }
 ];
 
