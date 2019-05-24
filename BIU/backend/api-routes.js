@@ -29,8 +29,11 @@ let userController = require('./users/userController');
 
 // song routes
 router.route('/songs')
-    .get(validateUser, songController.index)
+    .get(songController.index)
     .post(validateUser, songController.new);
+
+router.route('/songs/user')
+    .get(validateUser, songController.findByUserId)
 
 router.route('/songs/:song_id')
     .get(songController.view)

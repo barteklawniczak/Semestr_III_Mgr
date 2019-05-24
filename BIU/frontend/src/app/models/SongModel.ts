@@ -4,5 +4,6 @@ export interface SongModel {
     title: string;
     band: string;
     genre: string;
+    lyrics: string;
     user: string;
 }

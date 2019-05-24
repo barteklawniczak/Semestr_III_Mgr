@@ -27,6 +27,7 @@ exports.new = function (req, res) {
     song.band = req.body.band;
     song.genre = req.body.genre;
     song.user = req.body.user;
+    song.lyrics = req.body.lyrics;
 
 // save the song and check for errors
     song.save(function (err) {
@@ -46,7 +47,7 @@ exports.view = function (req, res) {
         if (err)
             res.status(404).send(err);
         res.json({
-            message: 'song details loading..',
+            message: 'Song details',
             data: song
         });
     });
@@ -62,6 +63,7 @@ exports.update = function (req, res) {
         song.title = req.body.title ? req.body.title : song.title;
         song.band = req.body.band;
         song.genre = req.body.genre;
+        song.lyrics = req.body.lyrics;
 
 // save the song and check for errors
         song.save(function (err) {
@@ -88,4 +90,17 @@ exports.delete = function (req, res) {
             message: 'song deleted'
         });
     });
+};
+
+exports.findByUserId = function (req, res) {
+    Song.find({ user : req.params.userId })
+        .exec(function (err, products) {
+            if (err){
+                res.send(err);
+            }
+            res.json({
+                message: 'Retrieved songs',
+                data: products
+            });
+        });
 };

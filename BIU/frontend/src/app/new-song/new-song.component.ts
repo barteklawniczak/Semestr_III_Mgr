@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../auth/auth.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
     selector: 'tsp-new-song-component',
@@ -14,10 +15,13 @@ export class NewSongComponent implements OnInit {
         band: new FormControl(''),
         genre: new FormControl(''),
         title: new FormControl(''),
+        lyrics: new FormControl(''),
         user: new FormControl('')
     });
 
-    constructor(private songService: SongService, private authService: AuthService) {}
+    constructor(private songService: SongService,
+                private authService: AuthService,
+                private toastr: ToastrService) {}
 
     ngOnInit(): void {
         this.newSongForm.controls['user'].setValue(this.authService.getLoggedUser()._id);
@@ -25,9 +29,9 @@ export class NewSongComponent implements OnInit {
 
     onSubmit() {
         this.songService.addNewSong(this.newSongForm.value).subscribe((response) => {
-            console.log(response);
+            this.toastr.success( 'Song added!', 'Success!');
         }, (error) => {
-            console.log(error);
+            this.toastr.error( 'Error occured!', 'Error!');
         });
     }
 }

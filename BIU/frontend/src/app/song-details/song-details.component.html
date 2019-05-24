@@ -17,6 +17,13 @@
             <mat-list-item>
                 <h4 mat-line>{{song?.title}}</h4>
             </mat-list-item>
+            <mat-divider></mat-divider>
+            <h3 mat-subheader>Lyrics:</h3>
+            <div class="song-lyrics">
+                {{song?.lyrics}}
+            </div>
         </mat-list>
+
+        <button *ngIf="canEdit" mat-raised-button color="primary" class="simple-button">Edit</button>
     </div>
 </div>

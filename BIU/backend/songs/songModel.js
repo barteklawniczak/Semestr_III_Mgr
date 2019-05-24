@@ -14,6 +14,7 @@ var songSchema = mongoose.Schema({
         required: true
     },
     genre: String,
+    lyrics: String,
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
