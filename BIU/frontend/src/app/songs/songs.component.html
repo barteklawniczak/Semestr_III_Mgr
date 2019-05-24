@@ -1,8 +1,21 @@
 <h2>All songs:</h2>
 
 <h3>Options: </h3>
-<mat-checkbox #onlyMySongs (change)="this.filterMySongs()" class="checkbox-margin">Show only my songs</mat-checkbox>
-
+<div class="filters">
+    <mat-checkbox #onlyMySongs (change)="this.filterDataSource()" class="checkbox-margin">Show only my songs</mat-checkbox>
+    <mat-form-field>
+        <mat-label>Band filter</mat-label>
+        <mat-select (selectionChange)="filterWithBand($event.value)">
+            <mat-option *ngFor="let band of this.bands" [value]="band">{{band}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Genre filter</mat-label>
+        <mat-select (selectionChange)="filterWithGenre($event.value)">
+            <mat-option *ngFor="let genre of this.genres" [value]="genre">{{genre}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef>Title:</mat-header-cell>

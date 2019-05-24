@@ -26,6 +26,7 @@ export class EditSongComponent implements OnInit {
     constructor(private songService: SongService,
                 private authService: AuthService,
                 private toastr: ToastrService,
+                private router: Router,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
@@ -48,6 +49,7 @@ export class EditSongComponent implements OnInit {
         }
         this.songService.updateSong(this.updateSongForm.value).subscribe((response) => {
             this.toastr.success( 'Song updated!', 'Success!');
+            this.router.navigate(['/songs']);
         }, (error) => {
             this.toastr.error( 'Error occured!', 'Error!');
         });
