@@ -5,5 +5,6 @@ export interface SongModel {
     band: string;
     genre: string;
     lyrics: string;
+    videoURL: string;
     user: string;
 }

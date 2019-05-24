@@ -18,6 +18,9 @@
                 <h4 mat-line>{{song?.title}}</h4>
             </mat-list-item>
             <mat-divider></mat-divider>
+            <h3 mat-subheader>Video:</h3>
+            <iframe width="560" height="315" [src]='this.safeUrl' frameborder="0" allowfullscreen></iframe>
+            <mat-divider></mat-divider>
             <h3 mat-subheader>Lyrics:</h3>
             <div class="song-lyrics">
                 {{song?.lyrics}}

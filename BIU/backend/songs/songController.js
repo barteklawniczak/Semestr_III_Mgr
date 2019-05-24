@@ -28,6 +28,7 @@ exports.new = function (req, res) {
     song.genre = req.body.genre;
     song.user = req.body.user;
     song.lyrics = req.body.lyrics;
+    song.videoURL = req.body.videoURL;
 
 // save the song and check for errors
     song.save(function (err) {
@@ -64,6 +65,7 @@ exports.update = function (req, res) {
         song.band = req.body.band;
         song.genre = req.body.genre;
         song.lyrics = req.body.lyrics;
+        song.videoURL = req.body.videoURL;
 
 // save the song and check for errors
         song.save(function (err) {

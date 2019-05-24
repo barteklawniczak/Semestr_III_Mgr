@@ -1,6 +1,8 @@
 <form [formGroup]="newSongForm" (ngSubmit)="onSubmit()">
 
     <div class="form-container">
+        <h2>Add Song:</h2>
+
         <mat-form-field appearance="outline">
             <mat-label>Band</mat-label>
             <input matInput placeholder="Band" formControlName="band">
@@ -14,6 +16,11 @@
         <mat-form-field appearance="outline">
             <mat-label>Genre</mat-label>
             <input matInput placeholder="Genre" formControlName="genre">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Video URL (copy from your address bar)</mat-label>
+            <input matInput placeholder="Video URL" formControlName="videoURL">
         </mat-form-field>
 
         <mat-form-field>

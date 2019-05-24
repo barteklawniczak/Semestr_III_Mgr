@@ -15,6 +15,7 @@ export class NewSongComponent implements OnInit {
         band: new FormControl(''),
         genre: new FormControl(''),
         title: new FormControl(''),
+        videoURL: new FormControl(''),
         lyrics: new FormControl(''),
         user: new FormControl('')
     });
@@ -28,6 +29,8 @@ export class NewSongComponent implements OnInit {
     }
 
     onSubmit() {
+        this.newSongForm.controls['videoURL'].setValue(this.newSongForm.controls['videoURL'].value.toString()
+            .replace('watch?v=', 'embed/'));
         this.songService.addNewSong(this.newSongForm.value).subscribe((response) => {
             this.toastr.success( 'Song added!', 'Success!');
         }, (error) => {
