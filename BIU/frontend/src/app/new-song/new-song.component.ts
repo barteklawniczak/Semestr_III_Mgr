@@ -3,6 +3,7 @@ import {SongService} from '../services/song.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'tsp-new-song-component',
@@ -22,7 +23,8 @@ export class NewSongComponent implements OnInit {
 
     constructor(private songService: SongService,
                 private authService: AuthService,
-                private toastr: ToastrService) {}
+                private toastr: ToastrService,
+                private router: Router) {}
 
     ngOnInit(): void {
         this.newSongForm.controls['user'].setValue(this.authService.getLoggedUser()._id);
@@ -33,6 +35,7 @@ export class NewSongComponent implements OnInit {
             .replace('watch?v=', 'embed/'));
         this.songService.addNewSong(this.newSongForm.value).subscribe((response) => {
             this.toastr.success( 'Song added!', 'Success!');
+            this.router.navigate(['/songs']);
         }, (error) => {
             this.toastr.error( 'Error occured!', 'Error!');
         });

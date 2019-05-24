@@ -22,4 +22,8 @@ export class SongService {
   addNewSong(song: SongModel): Observable<any> {
     return this.http.post<SongModel>('http://localhost:8080/api/songs/', song);
   }
+
+  updateSong(song: SongModel): Observable<any> {
+    return this.http.put<SongModel>('http://localhost:8080/api/songs/' + song._id, song);
+  }
 }

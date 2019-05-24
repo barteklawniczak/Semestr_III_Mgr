@@ -33,7 +33,7 @@ router.route('/songs')
     .post(validateUser, songController.new);
 
 router.route('/songs/user')
-    .get(validateUser, songController.findByUserId)
+    .get(validateUser, songController.findByUserId);
 
 router.route('/songs/:song_id')
     .get(songController.view)

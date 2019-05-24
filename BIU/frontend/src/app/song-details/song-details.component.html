@@ -19,7 +19,12 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <h3 mat-subheader>Video:</h3>
-            <iframe width="560" height="315" [src]='this.safeUrl' frameborder="0" allowfullscreen></iframe>
+            <div *ngIf="this.safeUrl?.changingThisBreaksApplicationSecurity">
+                <iframe width="560" height="315" [src]='this.safeUrl' frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div *ngIf="!this.safeUrl?.changingThisBreaksApplicationSecurity">
+                <img src="https://i.ytimg.com/vi/05DqIGS_koU/hqdefault.jpg">
+            </div>
             <mat-divider></mat-divider>
             <h3 mat-subheader>Lyrics:</h3>
             <div class="song-lyrics">
@@ -27,6 +32,6 @@
             </div>
         </mat-list>
 
-        <button *ngIf="canEdit" mat-raised-button color="primary" class="simple-button">Edit</button>
+        <button *ngIf="canEdit" mat-raised-button color="primary" class="simple-button" (click)="openEditDialog()">Edit</button>
     </div>
 </div>

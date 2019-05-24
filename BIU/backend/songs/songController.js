@@ -57,7 +57,7 @@ exports.view = function (req, res) {
 // Handle update song info
 exports.update = function (req, res) {
 
-    Song.findById(req.params.song_id, function (err, song) {
+    Song.findById(req.body._id, function (err, song) {
         if (err)
             res.send(err);
 

@@ -17,10 +17,10 @@ import {Interceptor} from './auth/auth.interceptor';
 import {RegistrationComponent} from './registration/registration.component';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 import {ToastrModule} from 'ngx-toastr';
-import {HistoryDialogComponent} from './dialogs/history-dialog/history-dialog.component';
 import {SongsComponent} from './songs/songs.component';
 import {SongDetailsComponent} from './song-details/song-details.component';
 import {NewSongComponent} from './new-song/new-song.component';
+import {EditSongComponent} from './edit-song/edit-song.component';
 
 
 @NgModule(<NgModule>{
@@ -30,13 +30,13 @@ import {NewSongComponent} from './new-song/new-song.component';
     LoginComponent,
     AboutComponent,
     RegistrationComponent,
-    HistoryDialogComponent,
+    EditSongComponent,
     SongsComponent,
     SongDetailsComponent,
     NewSongComponent
   ],
   entryComponents: [
-    HistoryDialogComponent
+    EditSongComponent
   ],
   imports: [
     BrowserModule,
