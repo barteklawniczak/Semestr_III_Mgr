@@ -18,4 +18,8 @@ export class SongService {
   getSongById(id: string): Observable<SongModel> {
     return this.http.get<any>('http://localhost:8080/api/songs/' + id).map(res => res.data);
   }
+
+  addNewSong(song: SongModel): Observable<any> {
+    return this.http.post<SongModel>('http://localhost:8080/api/songs/', song);
+  }
 }

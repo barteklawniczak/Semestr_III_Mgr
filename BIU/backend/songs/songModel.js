@@ -1,6 +1,7 @@
 // songModel.js
 
 var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 // Setup schema
 var songSchema = mongoose.Schema({
@@ -13,6 +14,10 @@ var songSchema = mongoose.Schema({
         required: true
     },
     genre: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     create_date: {
         type: Date,
         default: Date.now

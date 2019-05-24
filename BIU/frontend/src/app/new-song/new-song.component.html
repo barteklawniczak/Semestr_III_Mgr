@@ -1,0 +1,23 @@
+<form [formGroup]="newSongForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Band</mat-label>
+            <input matInput placeholder="Band" formControlName="band">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Title" formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Genre</mat-label>
+            <input matInput placeholder="Genre" formControlName="genre">
+        </mat-form-field>
+
+        <input hidden formControlName="user">
+        <button mat-raised-button color="primary" type="submit" class="simple-button">Submit</button>
+    </div>
+
+</form>

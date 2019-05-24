@@ -5,7 +5,7 @@
     <span class="example-spacer"></span>
     <button mat-button routerLink="/">App Info</button>
     <button mat-button routerLink="/songs">Songs</button>
-    <button *ngIf="authService.checkCredentials()" mat-button routerLink='/songs/add'>Add songs</button>
+    <button *ngIf="authService.checkCredentials()" mat-button routerLink='/new-song'>Add songs</button>
     <button *ngIf="authService.checkCredentials()" mat-button routerLink='/about'>My account</button>
     <button *ngIf="!authService.checkCredentials()" mat-button routerLink="/login">Login</button>
     <button *ngIf="!authService.checkCredentials()" mat-button routerLink="/registration">Registration</button>

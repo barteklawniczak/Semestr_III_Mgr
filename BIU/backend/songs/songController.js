@@ -26,6 +26,7 @@ exports.new = function (req, res) {
     song.title = req.body.title ? req.body.title : song.title;
     song.band = req.body.band;
     song.genre = req.body.genre;
+    song.user = req.body.user;
 
 // save the song and check for errors
     song.save(function (err) {

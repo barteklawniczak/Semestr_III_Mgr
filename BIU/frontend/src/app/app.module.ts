@@ -20,6 +20,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {HistoryDialogComponent} from './dialogs/history-dialog/history-dialog.component';
 import {SongsComponent} from './songs/songs.component';
 import {SongDetailsComponent} from './song-details/song-details.component';
+import {NewSongComponent} from './new-song/new-song.component';
 
 
 @NgModule(<NgModule>{
@@ -31,7 +32,8 @@ import {SongDetailsComponent} from './song-details/song-details.component';
     RegistrationComponent,
     HistoryDialogComponent,
     SongsComponent,
-    SongDetailsComponent
+    SongDetailsComponent,
+    NewSongComponent
   ],
   entryComponents: [
     HistoryDialogComponent

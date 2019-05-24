@@ -1,5 +1,8 @@
 <h2>All songs:</h2>
 
+<h3>Options: </h3>
+<mat-checkbox #onlyMySongs (change)="this.filterMySongs()" class="checkbox-margin">Show only my songs</mat-checkbox>
+
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef>Title:</mat-header-cell>

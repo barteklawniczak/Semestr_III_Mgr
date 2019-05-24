@@ -5,3 +5,8 @@ mat-table {
 mat-row:hover {
     background: #D0D0D0;
 }
+
+.checkbox-margin {
+    display:block;
+    margin-bottom: 20px;
+}

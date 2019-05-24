@@ -19,7 +19,11 @@ const UserSchema = new Schema({
         type: String,
         trim: true,
         required: true
-    }
+    },
+    songs: [{
+        type: Schema.Types.ObjectId,
+        ref: 'song'
+    }]
 });
 
 // hash user password before saving into database
