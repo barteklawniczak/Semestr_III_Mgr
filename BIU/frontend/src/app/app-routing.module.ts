@@ -33,11 +33,13 @@ const routes: Routes = [
   },
   {
     path: 'songs/:id',
-    component: SongDetailsComponent
+    component: SongDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'new-song',
-    component: NewSongComponent
+    component: NewSongComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

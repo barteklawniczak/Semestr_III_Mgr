@@ -2,7 +2,7 @@
 
 <h3>Options: </h3>
 <div class="filters">
-    <mat-checkbox #onlyMySongs (change)="this.filterDataSource()" class="checkbox-margin">Show only my songs</mat-checkbox>
+    <mat-checkbox *ngIf="this.userId" #onlyMySongs (change)="this.filterDataSource()" class="checkbox-margin">Show only my songs</mat-checkbox>
     <mat-form-field>
         <mat-label>Band filter</mat-label>
         <mat-select (selectionChange)="filterWithBand($event.value)">
@@ -22,11 +22,11 @@
         <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="band">
-        <mat-header-cell *matHeaderCellDef >Band:</mat-header-cell>
+        <mat-header-cell style="cursor: pointer" *matHeaderCellDef (click)="sortBand()">Band:</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.band}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="genre">
-        <mat-header-cell *matHeaderCellDef>Genre:</mat-header-cell>
+        <mat-header-cell style="cursor: pointer" *matHeaderCellDef (click)="sortGenre()">Genre:</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.genre}} </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

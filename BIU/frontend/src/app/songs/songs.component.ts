@@ -29,11 +29,15 @@ export class SongsComponent implements OnInit {
     ngOnInit(): void {
         this.bands.push('all');
         this.genres.push('all');
-        this.userId = this.authService.getLoggedUser()._id;
+        if (this.authService.checkCredentials()) {
+            this.userId = this.authService.getLoggedUser()._id;
+        }
         this.songService.getAllSongs().subscribe((result) => {
             this.songs = result;
             this.dataSource = new MatTableDataSource(this.songs);
-            this.mySongs = this.songs.filter(song => song.user === this.userId);
+            if (this.userId) {
+                this.mySongs = this.songs.filter(song => song.user === this.userId);
+            }
             this.bands.push(...[...result.map(song => song.band)].filter((x, i, a) => a.indexOf(x) === i));
             this.genres.push(...[...result.map(song => song.genre)].filter((x, i, a) => a.indexOf(x) === i));
         });
@@ -58,11 +62,9 @@ export class SongsComponent implements OnInit {
     }
 
     filterDataSource() {
-        let dataSongs;
-        if (this.onlyMySongs._checked) {
+        let dataSongs = this.songs;
+        if (this.userId && this.onlyMySongs._checked) {
             dataSongs = this.mySongs;
-        } else {
-            dataSongs = this.songs;
         }
         if (this.currentBand) {
             dataSongs = dataSongs.filter(song => song.band === this.currentBand);
@@ -72,4 +74,29 @@ export class SongsComponent implements OnInit {
         }
         this.dataSource = new MatTableDataSource(dataSongs);
     }
+
+    sortBand() {
+        this.dataSource = new MatTableDataSource(this.dataSource.filteredData.sort((n1, n2) => {
+            if (n1.band > n2.band) {
+                return 1;
+            }
+            if (n1.band < n2.band) {
+                return -1;
+            }
+            return 0;
+        }));
+    }
+
+    sortGenre() {
+        this.dataSource = new MatTableDataSource(this.dataSource.filteredData.sort((n1, n2) => {
+            if (n1.genre > n2.genre) {
+                return 1;
+            }
+            if (n1.genre < n2.genre) {
+                return -1;
+            }
+            return 0;
+        }));
+    }
+
 }

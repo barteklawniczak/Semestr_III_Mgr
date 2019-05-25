@@ -10,6 +10,10 @@ mat-form-field {
     margin-right: 30px;
 }
 
+mat-cell {
+    cursor: pointer;
+}
+
 .checkbox-margin {
     display:block;
     margin-bottom: 20px;
