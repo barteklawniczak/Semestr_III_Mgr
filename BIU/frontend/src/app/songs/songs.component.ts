@@ -15,7 +15,7 @@ export class SongsComponent implements OnInit {
 
     public songs: Array<SongModel>;
     public mySongs: Array<SongModel>;
-    private userId: string;
+    public userId: string;
     public dataSource = new MatTableDataSource(this.songs);
     public bands: string[] = [];
     public genres: string[] = [];

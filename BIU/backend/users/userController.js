@@ -27,4 +27,24 @@ module.exports = {
             }
         });
     },
+
+    // Handle index actions
+    index: function (req, res) {
+        userModel.find(function (err, users) {
+            if (err) {
+                res.json({
+                    status: "error",
+                    message: err,
+                });
+            }
+            users.forEach(function (user) {
+                user.password = null;
+            });
+            res.json({
+                status: "success",
+                message: "Users retrieved successfully",
+                data: users
+            });
+        });
+    }
 };

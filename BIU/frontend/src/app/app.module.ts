@@ -21,6 +21,7 @@ import {SongsComponent} from './songs/songs.component';
 import {SongDetailsComponent} from './song-details/song-details.component';
 import {NewSongComponent} from './new-song/new-song.component';
 import {EditSongComponent} from './edit-song/edit-song.component';
+import {UsersComponent} from './users/users.component';
 
 
 @NgModule(<NgModule>{
@@ -33,7 +34,8 @@ import {EditSongComponent} from './edit-song/edit-song.component';
     EditSongComponent,
     SongsComponent,
     SongDetailsComponent,
-    NewSongComponent
+    NewSongComponent,
+    UsersComponent
   ],
   entryComponents: [
     EditSongComponent

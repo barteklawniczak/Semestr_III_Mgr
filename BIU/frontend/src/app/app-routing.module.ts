@@ -8,6 +8,7 @@ import {RegistrationComponent} from './registration/registration.component';
 import {SongsComponent} from './songs/songs.component';
 import {SongDetailsComponent} from './song-details/song-details.component';
 import {NewSongComponent} from './new-song/new-song.component';
+import {UsersComponent} from './users/users.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,11 @@ const routes: Routes = [
   {
     path: 'new-song',
     component: NewSongComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
     canActivate: [AuthGuard]
   }
 ];

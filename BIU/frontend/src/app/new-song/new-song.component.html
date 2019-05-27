@@ -4,13 +4,15 @@
         <h2>Add Song:</h2>
 
         <mat-form-field appearance="outline">
-            <mat-label>Band</mat-label>
-            <input matInput placeholder="Band" formControlName="band">
+            <mat-label>Band *</mat-label>
+            <input matInput placeholder="Band *" formControlName="band">
+            <mat-error *ngIf="band.hasError('required')">Band name is required!</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-            <mat-label>Title</mat-label>
-            <input matInput placeholder="Title" formControlName="title">
+            <mat-label>Title *</mat-label>
+            <input matInput placeholder="Title *" formControlName="title">
+            <mat-error *ngIf="title.hasError('required')">Title is required!</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -24,8 +26,9 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Lyrics</mat-label>
-            <textarea matInput placeholder="Lyrics" formControlName="lyrics"></textarea>
+            <mat-label>Lyrics *</mat-label>
+            <textarea matInput placeholder="Lyrics *" formControlName="lyrics"></textarea>
+            <mat-error *ngIf="lyrics.hasError('required')">Lyrics are required!</mat-error>
         </mat-form-field>
 
         <input hidden formControlName="user">

@@ -43,6 +43,7 @@ router.route('/songs/:song_id')
 
 router.post('/register', userController.create);
 router.post('/authenticate', userController.authenticate);
+router.get('/users', userController.index);
 
 // Export API routes
 module.exports = router;

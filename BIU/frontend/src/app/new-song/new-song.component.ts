@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
@@ -13,11 +13,11 @@ import {Router} from '@angular/router';
 export class NewSongComponent implements OnInit {
 
     newSongForm = new FormGroup({
-        band: new FormControl(''),
+        band: new FormControl('', [Validators.required]),
         genre: new FormControl(''),
-        title: new FormControl(''),
+        title: new FormControl('', [Validators.required]),
         videoURL: new FormControl(''),
-        lyrics: new FormControl(''),
+        lyrics: new FormControl('', [Validators.required]),
         user: new FormControl('')
     });
 
@@ -31,6 +31,7 @@ export class NewSongComponent implements OnInit {
     }
 
     onSubmit() {
+        if (!this.newSongForm.valid) { return; }
         this.newSongForm.controls['videoURL'].setValue(this.newSongForm.controls['videoURL'].value.toString()
             .replace('watch?v=', 'embed/'));
         this.songService.addNewSong(this.newSongForm.value).subscribe((response) => {
@@ -39,5 +40,17 @@ export class NewSongComponent implements OnInit {
         }, (error) => {
             this.toastr.error( 'Error occured!', 'Error!');
         });
+    }
+
+    get band() {
+        return this.newSongForm.get('band');
+    }
+
+    get title() {
+        return this.newSongForm.get('title');
+    }
+
+    get lyrics() {
+        return this.newSongForm.get('lyrics');
     }
 }
