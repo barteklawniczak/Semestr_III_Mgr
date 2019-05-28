@@ -23,7 +23,7 @@ import {NewSongComponent} from './new-song/new-song.component';
 import {EditSongComponent} from './edit-song/edit-song.component';
 import {UsersComponent} from './users/users.component';
 import {UserDetailsComponent} from './user-details/user-details.component';
-
+import { ChartsModule, WavesModule } from 'angular-bootstrap-md'
 
 @NgModule(<NgModule>{
   declarations: [
@@ -53,7 +53,9 @@ import {UserDetailsComponent} from './user-details/user-details.component';
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     ToastrModule.forRoot(),
-    LeafletModule.forRoot()
+    LeafletModule.forRoot(),
+    ChartsModule,
+    WavesModule
   ],
   providers: [SongService, AuthGuard, CookieService,
     {

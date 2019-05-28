@@ -2,3 +2,7 @@
     width: 500px;
     margin: 0 auto 20px;
 }
+
+mat-cell {
+    cursor: pointer;
+}

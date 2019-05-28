@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
 import {UserLoggedModel} from '../models/UserLoggedModel';
+import 'rxjs/add/operator/map';
 
 @Injectable({
   providedIn: 'root'

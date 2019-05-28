@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {SongModel} from '../models/SongModel';
-import {MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {AuthService} from '../auth/auth.service';
 
 @Component({
@@ -12,6 +12,7 @@ import {AuthService} from '../auth/auth.service';
 export class SongsComponent implements OnInit {
 
     @ViewChild('onlyMySongs') onlyMySongs;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     public songs: Array<SongModel>;
     public mySongs: Array<SongModel>;
@@ -35,6 +36,7 @@ export class SongsComponent implements OnInit {
         this.songService.getAllSongs().subscribe((result) => {
             this.songs = result;
             this.dataSource = new MatTableDataSource(this.songs);
+            this.dataSource.paginator = this.paginator;
             if (this.userId) {
                 this.mySongs = this.songs.filter(song => song.user === this.userId);
             }
@@ -73,6 +75,7 @@ export class SongsComponent implements OnInit {
             dataSongs = dataSongs.filter(song => song.genre === this.currentGenre);
         }
         this.dataSource = new MatTableDataSource(dataSongs);
+        this.dataSource.paginator = this.paginator;
     }
 
     sortBand() {
@@ -85,6 +88,7 @@ export class SongsComponent implements OnInit {
             }
             return 0;
         }));
+        this.dataSource.paginator = this.paginator;
     }
 
     sortGenre() {
@@ -97,6 +101,7 @@ export class SongsComponent implements OnInit {
             }
             return 0;
         }));
+        this.dataSource.paginator = this.paginator;
     }
 
 }

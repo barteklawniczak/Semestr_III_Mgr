@@ -5,12 +5,12 @@
         <mat-list>
             <h3 mat-subheader>Username:</h3>
             <mat-list-item>
-                <h4 mat-line>{{user.login}}</h4>
+                <h4 mat-line>{{user?.login}}</h4>
             </mat-list-item>
             <mat-divider></mat-divider>
             <h3 mat-subheader>Email:</h3>
             <mat-list-item>
-                <h4 mat-line>{{user.email}}</h4>
+                <h4 mat-line>{{user?.email}}</h4>
             </mat-list-item>
         </mat-list>
 
@@ -32,5 +32,19 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [routerLink]="['/songs', row._id]"></mat-row>
         </mat-table>
+
+        <h2 *ngIf="this.songs.length > 0">Bands:</h2>
     </div>
+</div>
+<div *ngIf="this.songs.length > 0" style="display: block">
+    <canvas mdbChart
+            [chartType]="chartType"
+            [datasets]="chartDatasets"
+            [labels]="chartLabels"
+            [colors]="chartColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered()"
+            (chartClick)="chartClicked()">
+    </canvas>
 </div>

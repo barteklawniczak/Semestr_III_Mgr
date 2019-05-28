@@ -3,7 +3,7 @@ import {SongService} from '../services/song.service';
 import {AuthService} from '../auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -27,6 +27,7 @@ export class EditSongComponent implements OnInit {
                 private authService: AuthService,
                 private toastr: ToastrService,
                 private router: Router,
+                private dialog: MatDialog,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
@@ -51,6 +52,7 @@ export class EditSongComponent implements OnInit {
         this.songService.updateSong(this.updateSongForm.value).subscribe((response) => {
             this.toastr.success( 'Song updated!', 'Success!');
             this.router.navigate(['/songs']);
+            this.dialog.closeAll();
         }, (error) => {
             this.toastr.error( 'Error occured!', 'Error!');
         });
