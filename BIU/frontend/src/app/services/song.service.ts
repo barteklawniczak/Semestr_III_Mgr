@@ -26,4 +26,8 @@ export class SongService {
   updateSong(song: SongModel): Observable<any> {
     return this.http.put<SongModel>('http://localhost:8080/api/songs/' + song._id, song);
   }
+
+  getUserSongs(userId: string): Observable<SongModel[]> {
+    return this.http.get<any>('http://localhost:8080/api/songs/user/' + userId).map(res => res.data);
+  }
 }

@@ -32,7 +32,7 @@ router.route('/songs')
     .get(songController.index)
     .post(validateUser, songController.new);
 
-router.route('/songs/user')
+router.route('/songs/user/:user_id')
     .get(validateUser, songController.findByUserId);
 
 router.route('/songs/:song_id')
@@ -44,6 +44,7 @@ router.route('/songs/:song_id')
 router.post('/register', userController.create);
 router.post('/authenticate', userController.authenticate);
 router.get('/users', userController.index);
+router.get('/users/:user_id', userController.view);
 
 // Export API routes
 module.exports = router;

@@ -9,6 +9,7 @@ import {SongsComponent} from './songs/songs.component';
 import {SongDetailsComponent} from './song-details/song-details.component';
 import {NewSongComponent} from './new-song/new-song.component';
 import {UsersComponent} from './users/users.component';
+import {UserDetailsComponent} from './user-details/user-details.component';
 
 const routes: Routes = [
   {
@@ -46,7 +47,12 @@ const routes: Routes = [
     path: 'users',
     component: UsersComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'users/:id',
+    component: UserDetailsComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

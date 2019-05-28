@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="account-container">
+        <h2>Account:</h2>
+
+        <mat-list>
+            <h3 mat-subheader>Username:</h3>
+            <mat-list-item>
+                <h4 mat-line>{{user.login}}</h4>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <h3 mat-subheader>Email:</h3>
+            <mat-list-item>
+                <h4 mat-line>{{user.email}}</h4>
+            </mat-list-item>
+        </mat-list>
+
+        <h2>Songs:</h2>
+
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef>Title:</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="band">
+                <mat-header-cell *matHeaderCellDef>Band:</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.band}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="genre">
+                <mat-header-cell *matHeaderCellDef>Genre:</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.genre}} </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [routerLink]="['/songs', row._id]"></mat-row>
+        </mat-table>
+    </div>
+</div>

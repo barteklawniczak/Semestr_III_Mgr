@@ -95,7 +95,7 @@ exports.delete = function (req, res) {
 };
 
 exports.findByUserId = function (req, res) {
-    Song.find({ user : req.params.userId })
+    Song.find({ user : req.params.user_id })
         .exec(function (err, products) {
             if (err){
                 res.send(err);

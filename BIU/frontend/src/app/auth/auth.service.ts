@@ -56,8 +56,8 @@ export class AuthService {
     return JSON.parse(this.cookieService.get('user'));
   }
 
-  getUser(username: string): Observable<UserLoggedModel> {
-    return this._http.get<UserLoggedModel>('http://localhost:8080/api/users/' + username);
+  getUser(id: string): Observable<UserLoggedModel> {
+    return this._http.get<any>('http://localhost:8080/api/users/' + id).map(res => res.data);
   }
 
   getUsers(): Observable<UserLoggedModel[]> {

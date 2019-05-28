@@ -46,5 +46,16 @@ module.exports = {
                 data: users
             });
         });
+    },
+
+    view: function (req, res) {
+        userModel.findById(req.params.user_id, function (err, user) {
+            if (err)
+                res.status(404).send(err);
+            res.json({
+                message: 'User details',
+                data: user
+            });
+        });
     }
 };
